@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "KS8dUQNunCA=",
+  "success": true,
+  "projectFilePath": "C:\\teste\\BookClubAPI\\BookClubAPI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\adm\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.7\\microsoft.aspnetcore.openapi.9.0.7.nupkg.sha512",
+    "C:\\Users\\adm\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
