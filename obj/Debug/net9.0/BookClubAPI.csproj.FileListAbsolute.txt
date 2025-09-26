@@ -30,3 +30,7 @@ C:\teste\BookClubAPI\obj\Debug\net9.0\refint\BookClubAPI.dll
 C:\teste\BookClubAPI\obj\Debug\net9.0\BookClubAPI.pdb
 C:\teste\BookClubAPI\obj\Debug\net9.0\BookClubAPI.genruntimeconfig.cache
 C:\teste\BookClubAPI\obj\Debug\net9.0\ref\BookClubAPI.dll
+C:\teste\BookClubAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\teste\BookClubAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\teste\BookClubAPI\bin\Debug\net9.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\teste\BookClubAPI\obj\Debug\net9.0\BookClubAPI.sourcelink.json

@@ -10,7 +10,6 @@ namespace BookClubAPI.Services
     public class BookClubService
     {
 
-        private static int highestScore = 0;
         private static string lastWinner = "";
 
         private UserModel CreateUser(string credential, string? name)
@@ -27,15 +26,24 @@ namespace BookClubAPI.Services
 
         private int CalculatePoints(int books)
         {
-            if (books == 1) return 22;
-            if (books >= 2 && books <= 4) return 33;
-            return 45;
+            if (books == 1) return 20;
+            if (books >= 2 && books <= 4) return 80;
+            return 100;
         }
 
         public object ProcessEvent(EventModel eventModel)
         {
             UserModel? user = null;
             string message = "Poins added successfully."; // default
+
+            if (!string.IsNullOrWhiteSpace(eventModel.Credential) && eventModel.Credential.Length > 4)
+            {
+                return new
+                {
+                    message = "Credential must be 4 characters or less.",
+                    error = true
+                };
+            }
             //if credential not sended, create a new credential 
             if (string.IsNullOrWhiteSpace(eventModel.Credential))
             {
@@ -60,17 +68,23 @@ namespace BookClubAPI.Services
             user.TotalBooks += eventModel.BooksBought;
             user.TotalPoints += points;
 
+            if (user.TotalPoints >= 500 && !user.HasWon)
+            {
+                user.HasWon = true;
+                lastWinner = user.Name;
+                message = "CONGRATULATIONS!! You won a R$ 200,00 voucher 🎉";
+            }
+            else if (user.HasWon)
+            {
+                user.TotalPoints = 0;
+                user.HasWon = false;
+                message = "Points reset after winning. Keep participating!";
+            }
+
             //log
             string logEntry = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}: {user.Name} ({user.Credencial}) - Bought {eventModel.BooksBought} books. Earned {points} points. Description: {eventModel.Description}. Total Points: {user.TotalPoints}";
-            File.AppendAllText("logs.txt", logEntry + Environment.NewLine);
+            File.AppendAllText("bookclub.log", logEntry + Environment.NewLine);
 
-            if (user.TotalPoints > highestScore)
-            {
-                highestScore = user.TotalPoints;
-                lastWinner = user.Name;
-                message = "You won a R$ 100,00 voucher 🎉";
-                user.TotalPoints = 0; //reset points
-            }
             return new
             {
                 message = message,
@@ -92,9 +106,13 @@ namespace BookClubAPI.Services
                     u.TotalBooks,
                     u.TotalPoints
                 }),
-                TopUser = topUser?.Name,
-                LastWinner = lastWinner,
+                TopUser = topUser != null
+                    ? $"User: {topUser.Name} has purchased {topUser.TotalBooks} books and accumulated {topUser.TotalPoints} points — currently our top reader!"
+                    : "No users registered yet.",
+                LastWinner = string.IsNullOrWhiteSpace(lastWinner)
+                    ? "No winners yet."
+                    : lastWinner
             };
         }
     }
-} //end
+}
