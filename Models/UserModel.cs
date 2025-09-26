@@ -1,3 +1,5 @@
+namespace BookClubAPI.Models;
+
 public class UserModel
 {
     public int IdUser { get; set; }
