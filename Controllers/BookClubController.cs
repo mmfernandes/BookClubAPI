@@ -8,7 +8,12 @@ namespace BookClubAPI.Controllers
     [Route("[controller]")]
     public class BookClubController : ControllerBase
     {
-        private readonly BookClubService _service = new();
+        private readonly BookClubService _service;
+
+        public BookClubController(BookClubService service)
+        {
+            _service = service;
+        }
 
         [HttpPost("event")]
         public IActionResult ProcessEvent([FromBody] EventModel eventModel)
@@ -18,7 +23,7 @@ namespace BookClubAPI.Controllers
         }
 
         [HttpGet("balanced")]
-        public IActionResult GetBalancedStatus()
+        public IActionResult GetBalancedUsers()
         {
             var result = _service.GetBalancedStatus();
             return Ok(result);
